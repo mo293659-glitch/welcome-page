@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌟 Welcome Page</title>
+  <!-- أيقونة صغيرة للصفحة -->
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/25/25694.png">
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .welcome {
+      font-size: 32px;
+      font-style: italic;
+      text-align: center;
+    }
+    .welcome a {
+      display: block;
+      margin-top: 20px;
+      color: #00acee;
+      text-decoration: none;
+      font-size: 20px;
+      transition: 0.3s;
+    }
+    .welcome a:hover {
+      color: #1db954;
+    }
+    .typing {
+      border-right: 2px solid #fff;
+      display: inline-block;
+      padding-right: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome">
+    <span id="typewriter" class="typing"></span>
+    <br>
+    <a href="https://www.facebook.com/share/1FChqb7Pbv/" target="_blank">
+      Click here to open the link
+    </a>
+  </div>
+
+  <script>
+    const text = ["Welcome to My Page 🌟", "مرحباً بك في صفحتي 🌟"];
+    let index = 0;
+    let charIndex = 0;
+    const speed = 100; 
+    const element = document.getElementById("typewriter");
+
+    function typeEffect() {
+      if (charIndex < text[index].length) {
+        element.textContent += text[index].charAt(charIndex);
+        charIndex++;
+        setTimeout(typeEffect, speed);
+      } else {
+        if (index === 0) {
+          setTimeout(() => {
+            index = 1;
+            charIndex = 0;
+            element.textContent = "";
+            typeEffect();
+          }, 1000);
+        }
+      }
+    }
+    typeEffect();
+  </script>
+</body>
+</html>
