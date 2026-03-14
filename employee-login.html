@@ -78,12 +78,12 @@ p { color: red; margin-top: 10px; }
 // مثال على بيانات موظف ثابتة
 const employeeData = {
     id: "12345678901234",
-    password: "admin123"
+    password: "123456789"
 };
 
 function login(){
-    let id = document.getElementById("employeeId").value;
-    let pass = document.getElementById("employeePass").value;
+    let id = document.getElementById("employeeId").value.trim();
+    let pass = document.getElementById("employeePass").value.trim();
 
     if(id === employeeData.id && pass === employeeData.password){
         localStorage.setItem("employeeLoggedIn", "true");
