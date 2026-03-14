@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>اختيار التخصص وحجز الطبيب</title>
+<style>
+/* body وخلفية */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #f0f4f8, #d9e2ec);
+    direction: rtl;
+    margin: 0;
+    padding: 20px 0;
+}
+
+/* العنوان */
+h2 { text-align: center; color: #222; font-weight: 600; margin-bottom: 20px; }
+
+/* أيقونة البوت */
+#botIcon {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #43cea2;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 28px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+#bot {
+    display: none;
+    position: fixed;
+    bottom: 100px;
+    left: 20px;
+    width: 350px;
+    background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+    min-height: 60px;
+    z-index: 1000;
+}
+
+#bot input { width: 75%; padding: 8px; border-radius: 8px; border: none; margin-right: 5px; }
+#bot button { padding: 8px 12px; border-radius: 8px; border: none; background: #ff416c; color: white; cursor: pointer; }
+#bot button:hover { opacity: 0.9; }
+
+/* كروت التخصصات */
+.cards-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 0 20px; }
+
+.doctor-card {
+    background: #ffffff;
+    width: 250px;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.doctor-card:hover { transform: translateY(-5px); box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
+
+.doctor-card h3 { margin: 0; color: #185a9d; margin-bottom: 10px; }
+.doctor-card p { margin: 5px 0; font-size: 14px; color: #555; }
+.doctor-card button { margin-top: 10px; width: 100%; padding: 10px; border: none; border-radius: 12px; background: #43cea2; color: white; font-weight: 600; cursor: pointer; }
+.doctor-card button:hover { background: #185a9d; }
+
+@media(max-width: 600px) { .cards-container { flex-direction: column; align-items: center; } }
+</style>
+</head>
+<body>
+
+<h2>اختيار التخصص وحجز الطبيب</h2>
+
+<!-- كروت التخصصات والدكاترة -->
+<div class="cards-container">
+<div class="doctor-card">
+<h3>د. أحمد علي</h3>
+<p>تخصص: باطنة</p>
+<p>خبرة: 10 سنوات</p>
+<p>هاتف: 0123456789</p>
+<button onclick="bookAppointment('د. أحمد علي','باطنة')">حجز موعد</button>
+</div>
+
+<div class="doctor-card">
+<h3>د. سلمى محمود</h3>
+<p>تخصص: عظام</p>
+<p>خبرة: 8 سنوات</p>
+<p>هاتف: 0109876543</p>
+<button onclick="bookAppointment('د. سلمى محمود','عظام')">حجز موعد</button>
+</div>
+
+<div class="doctor-card">
+<h3>د. كريم حسن</h3>
+<p>تخصص: جلدية</p>
+<p>خبرة: 5 سنوات</p>
+<p>هاتف: 0112233445</p>
+<button onclick="bookAppointment('د. كريم حسن','جلدية')">حجز موعد</button>
+</div>
+</div>
+
+<!-- بوت أيقونة -->
+<div id="botIcon" onclick="toggleBot()">💬</div>
+
+<!-- بوت الدردشة -->
+<div id="bot">
+    <div id="botResponse">مرحبا! اسألني عن حالتك الخفيفة.</div>
+    <input type="text" id="userInput" placeholder="اكتب سؤالك هنا...">
+    <button onclick="askBot()">اسأل</button>
+</div>
+
+<script>
+// عرض/اخفاء البوت
+function toggleBot(){
+    let bot = document.getElementById("bot");
+    bot.style.display = (bot.style.display === "none") ? "block" : "none";
+}
+
+// البوت: حالات خفيفة
+function askBot(){
+    let input = document.getElementById("userInput").value.toLowerCase();
+    let response = "";
+
+    if(input.includes("صداع")){
+        response = "يمكنك شرب ماء وفحص ضغط الدم إذا استمر الصداع.";
+    } else if(input.includes("برد") || input.includes("زكام")){
+        response = "اشرب سوائل دافئة واسترح، وإذا استمر الزكام أكثر من 5 أيام، راجع الطبيب.";
+    } else if(input.includes("الم") || input.includes("وجع")){
+        response = "يرجى تحديد مكان الألم لتقديم نصيحة دقيقة.";
+    } else {
+        response = "لست متأكد، يمكنك اختيار التخصص المناسب وحجز طبيب.";
+    }
+
+    document.getElementById("botResponse").innerText = response;
+}
+
+// حجز موعد + الانتقال لصفحة الدفع
+function bookAppointment(doctorName, specialty){
+    let patient = JSON.parse(localStorage.getItem("patientData")) || {};
+    patient.doctor = doctorName;
+    patient.specialty = specialty;
+
+    // حفظ البيانات
+    localStorage.setItem("patientData", JSON.stringify(patient));
+
+    // الانتقال لصفحة الدفع
+    window.location.href = "payment.html";
+}
+</script>
+
+</body>
+</html>
