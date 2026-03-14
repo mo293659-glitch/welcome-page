@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>صفحة الدفع</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #f0f4f8, #d9e2ec);
+    direction: rtl;
+    margin:0;
+    padding:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container {
+    background: #fff;
+    width: 400px;
+    padding: 40px 30px;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 25px;
+    color:#222;
+}
+
+.field-card {
+    background: #f0f4f8;
+    border-radius: 15px;
+    padding: 12px 15px;
+    margin: 12px 0;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border:none;
+    border-radius: 10px;
+    font-size:16px;
+    outline:none;
+}
+
+button {
+    width:100%;
+    padding:14px 0;
+    margin-top:20px;
+    border:none;
+    border-radius:15px;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+    color:white;
+    transition:0.3s;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+.hidden { display:none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>اختيار طريقة الدفع</h2>
+
+<div class="field-card">
+<select id="paymentMethod" onchange="showField()">
+    <option value="">اختر طريقة الدفع</option>
+    <option value="cash">كاش</option>
+    <option value="visa">فيزا</option>
+</select>
+</div>
+
+<div class="field-card hidden" id="cashField">
+    <input type="text" id="cashNumber" placeholder="رقم الكاش">
+</div>
+
+<div class="field-card hidden" id="visaField">
+    <input type="text" id="visaNumber" placeholder="رقم الفيزا">
+</div>
+
+<button onclick="confirmPayment()">تأكيد الدفع</button>
+
+</div>
+
+<script>
+function showField(){
+    let method = document.getElementById("paymentMethod").value;
+    document.getElementById("cashField").classList.add("hidden");
+    document.getElementById("visaField").classList.add("hidden");
+
+    if(method === "cash"){
+        document.getElementById("cashField").classList.remove("hidden");
+    } else if(method === "visa"){
+        document.getElementById("visaField").classList.remove("hidden");
+    }
+}
+
+function confirmPayment(){
+    let method = document.getElementById("paymentMethod").value;
+    if(method === ""){
+        alert("اختر طريقة الدفع أولاً!");
+        return;
+    }
+
+    let patient = JSON.parse(localStorage.getItem("patientData")) || {};
+    patient.paymentMethod = method;
+    if(method === "cash"){
+        patient.paymentNumber = document.getElementById("cashNumber").value;
+    } else {
+        patient.paymentNumber = document.getElementById("visaNumber").value;
+    }
+
+    // حفظ البيانات
+    localStorage.setItem("patientData", JSON.stringify(patient));
+
+    // الانتقال للصفحة النهائية
+    window.location.href = "summary.html";
+}
+</script>
+
+</body>
+</html>

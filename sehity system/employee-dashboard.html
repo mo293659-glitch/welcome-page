@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>لوحة تحكم الموظف</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #f0f4f8, #d9e2ec);
+    direction: rtl;
+    margin:0;
+    padding:20px;
+}
+
+h2 { text-align:center; margin-bottom:20px; }
+
+.patient-card {
+    background:#fff;
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 15px 30px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.patient-card:hover { transform: translateY(-5px); box-shadow:0 25px 50px rgba(0,0,0,0.2); }
+
+.patient-card p { margin:5px 0; }
+
+button {
+    margin-top:10px;
+    padding:10px;
+    border:none;
+    border-radius:12px;
+    background: #43cea2;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+}
+
+button:hover { background:#185a9d; }
+</style>
+</head>
+<body>
+
+<h2>بيانات المرضى</h2>
+<div id="patientsContainer"></div>
+
+<script>
+// تحقق من تسجيل دخول الموظف
+if(localStorage.getItem("employeeLoggedIn") !== "true"){
+    alert("يجب تسجيل الدخول أولاً!");
+    window.location.href = "employee-login.html";
+}
+
+// جلب بيانات المريض (مثال: بيانات صفحة summary.html)
+let patientData = JSON.parse(localStorage.getItem("patientData")) || {};
+
+let container = document.getElementById("patientsContainer");
+
+if(Object.keys(patientData).length === 0){
+    container.innerHTML = "<p>لا توجد بيانات مسجلة حتى الآن.</p>";
+} else {
+    let card = document.createElement("div");
+    card.className = "patient-card";
+    card.innerHTML = `
+        <p><strong>الاسم:</strong> ${patientData.name}</p>
+        <p><strong>الرقم القومي:</strong> ${patientData.nationalId}</p>
+        <p><strong>تاريخ الميلاد:</strong> ${patientData.birthDate}</p>
+        <p><strong>المدينة:</strong> ${patientData.city}</p>
+        <p><strong>المركز:</strong> ${patientData.center}</p>
+        <p><strong>التخصص:</strong> ${patientData.specialty}</p>
+        <p><strong>الدكتور:</strong> ${patientData.doctor}</p>
+        <p><strong>طريقة الدفع:</strong> ${patientData.paymentMethod}</p>
+        <p><strong>رقم الدفع:</strong> ${patientData.paymentNumber}</p>
+        <p><strong>وقت الحجز:</strong> ${patientData.bookingTime || new Date().toLocaleString()}</p>
+        <p><strong>الدور:</strong> ${patientData.turn || Math.floor(Math.random()*100)+1}</p>
+        <button onclick="confirmBooking()">تأكيد الحجز</button>
+    `;
+    container.appendChild(card);
+}
+
+function confirmBooking(){
+    alert("تم تأكيد الحجز بنجاح!");
+}
+</script>
+
+</body>
+</html>

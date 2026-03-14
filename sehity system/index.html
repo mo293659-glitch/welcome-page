@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Smart Hospital</title>
+
+<style>
+body{
+  font-family: Arial;
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  text-align: center;
+  margin:0;
+  padding:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.container{
+  background:white;
+  padding:50px 30px;
+  border-radius:15px;
+  box-shadow:0 0 20px rgba(0,0,0,0.2);
+}
+
+button{
+  width:200px;
+  padding:15px;
+  margin:15px 0;
+  border:none;
+  border-radius:10px;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.patientBtn{
+  background:#4CAF50;
+  color:white;
+}
+
+.employeeBtn{
+  background:#2196F3;
+  color:white;
+}
+
+button:hover{
+  opacity:0.8;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Smart Hospital</h1>
+
+  <button class="patientBtn" onclick="goPatient()">تسجيل مريض</button>
+
+  <button class="employeeBtn" onclick="goEmployee()">دخول موظف</button>
+</div>
+
+<script>
+function goPatient(){
+  // يروح مباشرة لصفحة بيانات المريض
+  window.location.href = "patient-data.html";
+}
+
+function goEmployee(){
+  // هنا هتروح صفحة دخول الموظف (نعملها بعدين)
+  window.location.href = "employee-login.html";
+}
+</script>
+
+</body>
+</html>

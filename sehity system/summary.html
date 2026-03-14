@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>ملخص الحجز</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #f0f4f8, #d9e2ec);
+    direction: rtl;
+    margin:0;
+    padding:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container {
+    background: #fff;
+    width: 450px;
+    padding: 40px 30px;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    text-align: right;
+}
+
+h2 {
+    text-align: center;
+    color:#222;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+button {
+    width:100%;
+    padding:14px 0;
+    margin-top:20px;
+    border:none;
+    border-radius:15px;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+    color:white;
+    transition:0.3s;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>ملخص الحجز</h2>
+
+<div id="summaryContent"></div>
+
+<button onclick="printTicket()">تحميل التذكرة PDF</button>
+
+</div>
+
+<script>
+// جلب بيانات المريض من localStorage
+let patient = JSON.parse(localStorage.getItem("patientData")) || {};
+let summary = document.getElementById("summaryContent");
+
+let now = new Date();
+let time = now.toLocaleString();
+let turn = Math.floor(Math.random()*100)+1; // رقم الدور عشوائي
+
+summary.innerHTML = `
+<p><strong>الاسم:</strong> ${patient.name || ''}</p>
+<p><strong>الرقم القومي:</strong> ${patient.nationalId || ''}</p>
+<p><strong>تاريخ الميلاد:</strong> ${patient.birthDate || ''}</p>
+<p><strong>المدينة:</strong> ${patient.city || ''}</p>
+<p><strong>المركز:</strong> ${patient.center || ''}</p>
+<p><strong>التخصص:</strong> ${patient.specialty || ''}</p>
+<p><strong>الدكتور:</strong> ${patient.doctor || ''}</p>
+<p><strong>طريقة الدفع:</strong> ${patient.paymentMethod || ''}</p>
+<p><strong>رقم الدفع:</strong> ${patient.paymentNumber || ''}</p>
+<p><strong>وقت الحجز:</strong> ${time}</p>
+<p><strong>الدور:</strong> ${turn}</p>
+`;
+
+function printTicket(){
+    alert("سيتم تنزيل التذكرة PDF لاحقاً (يمكن استخدام مكتبة jsPDF لإصدارها).");
+}
+</script>
+
+</body>
+</html>

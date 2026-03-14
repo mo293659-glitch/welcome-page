@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>دخول الموظف</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #f0f4f8, #d9e2ec);
+    direction: rtl;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: #fff;
+    width: 400px;
+    padding: 40px 30px;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 25px;
+    color:#222;
+}
+
+input {
+    width: 90%;
+    padding: 12px;
+    margin: 12px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+}
+
+button {
+    width:100%;
+    padding:14px 0;
+    margin-top:20px;
+    border:none;
+    border-radius:15px;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+    color:white;
+    transition:0.3s;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+p { color: red; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>دخول الموظف</h2>
+
+<input type="text" id="employeeId" placeholder="الرقم القومي">
+<input type="password" id="employeePass" placeholder="كلمة المرور">
+
+<button onclick="login()">دخول</button>
+<p id="errorMsg"></p>
+</div>
+
+<script>
+// مثال على بيانات موظف ثابتة
+const employeeData = {
+    id: "12345678901234",
+    password: "admin123"
+};
+
+function login(){
+    let id = document.getElementById("employeeId").value;
+    let pass = document.getElementById("employeePass").value;
+
+    if(id === employeeData.id && pass === employeeData.password){
+        localStorage.setItem("employeeLoggedIn", "true");
+        window.location.href = "employee-dashboard.html";
+    } else {
+        document.getElementById("errorMsg").innerText = "الرقم القومي أو كلمة المرور غير صحيحة!";
+    }
+}
+</script>
+
+</body>
+</html>
